@@ -70,6 +70,16 @@ export async function GET(request: NextRequest) {
             path: "/",
         })
 
+        // Store token expiration timestamp for refresh logic
+        const expiresAt = Date.now() + ((tokens.expires_in || 3600) * 1000)
+        response.cookies.set("spotify_token_expires_at", expiresAt.toString(), {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: tokens.expires_in || 3600,
+            path: "/",
+        })
+
         response.cookies.set("spotify_refresh_token", tokens.refresh_token || "", {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",

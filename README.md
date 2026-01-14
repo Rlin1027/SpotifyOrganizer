@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎵 Spotify Organizer
 
-## Getting Started
+Organize your Spotify Liked Songs into playlists by **decade**, **genre**, or **mood**.
 
-First, run the development server:
+## ✨ Features
 
+- 📚 **Fetch Liked Songs** - Load your entire Spotify library
+- 📅 **Group by Decade** - 2020s, 2010s, 2000s, etc.
+- 🎸 **Group by Genre** - 150+ genre mappings (Pop, Rock, Hip-Hop, Latin, K-Pop, etc.)
+- 😌 **Group by Mood** - High Energy, Chill, Focus, etc.
+- ⚡ **Bulk Create Playlists** - Auto-generate smart playlist names with emojis
+- 🌐 **Multilingual** - English & Chinese support
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+
+- Spotify Developer Account
+
+### Setup
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/Rlin1027/SpotifyOrganizer.git
+cd SpotifyOrganizer
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Copy environment template:
+```bash
+cp .env.example .env.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Configure Spotify credentials:
+   - Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+   - Create an app and get Client ID & Secret
+   - Add `http://127.0.0.1:3000/api/spotify/callback` as Redirect URI
+   - Update `.env.local` with your credentials
 
-## Learn More
+5. Start development server:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+6. Open [http://127.0.0.1:3000](http://127.0.0.1:3000)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🌍 Deploy to Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Push your code to GitHub
 
-## Deploy on Vercel
+2. Import project in [Vercel Dashboard](https://vercel.com/new)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Add environment variables:
+   - `SPOTIFY_CLIENT_ID`
+   - `SPOTIFY_CLIENT_SECRET`
+   - `AUTH_SECRET` (generate with `openssl rand -base64 32`)
+   - `NEXTAUTH_URL` (your Vercel domain, e.g., `https://your-app.vercel.app`)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. Update Spotify Dashboard:
+   - Add your Vercel URL + `/api/spotify/callback` as Redirect URI
+
+5. Deploy!
+
+## 📁 Project Structure
+
+```
+src/
+├── app/
+│   ├── api/          # API routes
+│   ├── dashboard/    # Main app UI
+│   ├── settings/     # Credentials config
+│   └── components/   # Shared components
+└── lib/
+    ├── spotify.ts    # Spotify API wrapper
+    ├── tokenRefresh.ts # Auto token refresh
+    └── i18n/         # Translations
+```
+
+## 📝 License
+
+MIT

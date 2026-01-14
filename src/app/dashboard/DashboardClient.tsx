@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from "react"
 import { Loader2, ChevronDown, ChevronRight, Plus, Check, ExternalLink, X, Edit3, Heart, Zap, Music, Coffee, Home, LogOut } from "lucide-react"
 import { useLanguage, LanguageToggle } from "@/lib/i18n/LanguageContext"
+import { useToast } from "@/app/components/Toast"
 
 interface User {
     id: string
@@ -272,6 +273,7 @@ function CreatePlaylistModal({ isOpen, onClose, onConfirm, initialName, initialD
 
 export default function DashboardClient({ accessToken, user }: DashboardClientProps) {
     const { t } = useLanguage()
+    const { addToast } = useToast()
 
     const [tracks, setTracks] = useState<Track[]>([])
     const [loading, setLoading] = useState(false)
@@ -403,11 +405,11 @@ export default function DashboardClient({ accessToken, user }: DashboardClientPr
                 }])
                 setModalOpen(false) // Close modal on success
             } else {
-                alert(`Failed to create playlist: ${data.error}`)
+                addToast(`Failed to create playlist: ${data.error}`, 'error')
             }
         } catch (error) {
             console.error("Error creating playlist:", error)
-            alert("Failed to create playlist")
+            addToast("Failed to create playlist", 'error')
         } finally {
             setCreatingPlaylistGroup(null) // Stop loading state
         }

@@ -1,0 +1,16 @@
+{
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "framework": "nextjs",
+    "buildCommand": "npm run build",
+    "devCommand": "npm run dev",
+    "installCommand": "npm install",
+    "regions": [
+        "hnd1"
+    ],
+    "env": {
+        "SPOTIFY_CLIENT_ID": "@spotify_client_id",
+        "SPOTIFY_CLIENT_SECRET": "@spotify_client_secret",
+        "AUTH_SECRET": "@auth_secret",
+        "NEXTAUTH_URL": "@nextauth_url"
+    }
+}
