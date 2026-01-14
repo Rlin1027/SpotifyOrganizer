@@ -23,11 +23,13 @@ Spotify Organizer is a web application built with Next.js 16 that interacts with
 
 *   `src/app`: Application routes (App Router).
     *   `page.tsx`: Landing page. Checks for stored credentials and login status.
-    *   `dashboard/`: Main application interface for authenticated users.
+    *   `dashboard/`: Main application interface with smart grouping, searching, and playlist management.
     *   `settings/`: UI for configuring Spotify Client ID and Secret.
-    *   `api/`: Backend API routes.
+    *   `components/`: Reusable UI components (Toast, SearchBar, ProgressBar).
+    *   `api/`: Backend API routes with auto-token-refresh logic.
 *   `src/lib`: Shared logic.
     *   `spotify.ts`: Core Spotify API interactions (fetch liked songs, create playlists, normalize genres).
+    *   `tokenRefresh.ts`: Logic for automatically refreshing Spotify Access Tokens using Refresh Tokens.
     *   `auth.ts`: NextAuth configuration (using a manual credentials provider).
     *   `credentials.ts`: Logic for managing Spotify API credentials (likely handling file-based or DB storage of ID/Secret).
 
@@ -41,10 +43,18 @@ The project uses a hybrid authentication approach:
 
 ### Core Logic (`src/lib/spotify.ts`)
 
-*   **`getAllLikedSongs`**: Fetches user's saved tracks with pagination. *Note: Has a safety limit of 2000 songs.*
+*   **`getAllLikedSongs`**: Fetches user's saved tracks with pagination and progress reporting.
 *   **`getArtistsGenres`**: Fetches genre information for artists in batches of 50.
-*   **`normalizeGenre`**: Maps specific Spotify genres to broader categories (e.g., "indie pop" -> "Pop").
+*   **`normalizeGenre`**: Maps specific Spotify genres to broader categories using an expanded mapping (150+ genres).
 *   **`createPlaylist`**: Creates a new playlist and adds tracks.
+*   **`refreshAccessToken`**: (in `tokenRefresh.ts`) Refreshes expired sessions automatically.
+
+### Advanced Features
+
+*   **Duplicate Detection**: Groups tracks by name and artist to identify and filter duplicates.
+*   **Playlist Merge**: Allows combining multiple categorized groups into a single smart playlist.
+*   **Real-time Search**: Instant filtering of the library by song, artist, or year.
+*   **Progress Tracking**: Visual feedback during long-running library fetch operations.
 
 ## Development
 
@@ -79,5 +89,5 @@ The project uses a hybrid authentication approach:
 ## Notes for Development
 
 *   **Strict Mode:** React Strict Mode is likely enabled (Next.js default).
-*   **Data Limits:** Be aware of the 2000 song limit in `getAllLikedSongs` when testing with large libraries.
-*   **Tailwind v4:** Uses the latest alpha/beta version of Tailwind CSS.
+*   **Tailwind v4:** Uses the latest version of Tailwind CSS with modern utilities.
+*   **Deployment:** Optimized for Vercel deployment with pre-configured `vercel.json`.

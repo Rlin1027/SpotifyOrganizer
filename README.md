@@ -4,11 +4,14 @@ Organize your Spotify Liked Songs into playlists by **decade**, **genre**, or **
 
 ## ✨ Features
 
-- 📚 **Fetch Liked Songs** - Load your entire Spotify library
+- 📚 **Fetch Liked Songs** - Load your entire Spotify library with progress tracking
 - 📅 **Group by Decade** - 2020s, 2010s, 2000s, etc.
 - 🎸 **Group by Genre** - 150+ genre mappings (Pop, Rock, Hip-Hop, Latin, K-Pop, etc.)
 - 😌 **Group by Mood** - High Energy, Chill, Focus, etc.
 - ⚡ **Bulk Create Playlists** - Auto-generate smart playlist names with emojis
+- 🔍 **Search & Filter** - Instantly find songs, artists, or albums
+- 👯 **Duplicate Detection** - Identify and remove duplicate tracks from your selection
+- 🔀 **Playlist Merge** - Combine multiple categories into one custom playlist
 - 🌐 **Multilingual** - English & Chinese support
 
 ## 🚀 Quick Start
