@@ -21,9 +21,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         const saved = localStorage.getItem(STORAGE_KEY) as Language | null
         if (saved && (saved === 'en' || saved === 'zh')) {
-            setLanguageState(saved)
+            // Defer update to avoid synchronous state update warning
+            setTimeout(() => setLanguageState(saved), 0)
         }
-        setMounted(true)
+        setTimeout(() => setMounted(true), 0)
     }, [])
 
     // Save language to localStorage when it changes

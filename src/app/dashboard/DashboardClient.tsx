@@ -1,7 +1,8 @@
 "use client"
 
-import { useState, useMemo, useEffect } from "react"
-import { Loader2, ChevronDown, ChevronRight, Plus, Check, ExternalLink, X, Edit3, Heart, Zap, Music, Coffee, Home, LogOut, Copy, Trash2, Merge, Square, CheckSquare } from "lucide-react"
+import { useState, useEffect, useMemo } from 'react'
+import Link from 'next/link'
+import { Loader2, ChevronDown, ChevronRight, Plus, Check, ExternalLink, X, Edit3, Home, LogOut, Copy, Trash2, Merge, Square, CheckSquare } from "lucide-react"
 import { useLanguage, LanguageToggle } from "@/lib/i18n/LanguageContext"
 import { useToast } from "@/app/components/Toast"
 import SearchBar from "@/app/components/SearchBar"
@@ -237,10 +238,14 @@ function CreatePlaylistModal({ isOpen, onClose, onConfirm, initialName, initialD
     const [description, setDescription] = useState(initialDescription)
 
     // Reset state when modal opens
+    // Reset state when modal opens
     useEffect(() => {
         if (isOpen) {
-            setName(initialName)
-            setDescription(initialDescription)
+            const t = setTimeout(() => {
+                setName(initialName)
+                setDescription(initialDescription)
+            }, 0)
+            return () => clearTimeout(t)
         }
     }, [isOpen, initialName, initialDescription])
 
@@ -307,7 +312,7 @@ function CreatePlaylistModal({ isOpen, onClose, onConfirm, initialName, initialD
 }
 
 
-export default function DashboardClient({ accessToken, user }: DashboardClientProps) {
+export default function DashboardClient({ accessToken: _accessToken, user }: DashboardClientProps) {
     const { t } = useLanguage()
     const { addToast } = useToast()
 
@@ -321,7 +326,7 @@ export default function DashboardClient({ accessToken, user }: DashboardClientPr
     const [searchQuery, setSearchQuery] = useState('')
 
     // Loading Progress State
-    const [loadProgress, setLoadProgress] = useState<{ current: number; total: number | null }>({ current: 0, total: null })
+    const [loadProgress, _setLoadProgress] = useState<{ current: number; total: number | null }>({ current: 0, total: null })
 
     // Data State
     const [genreMapping, setGenreMapping] = useState<Record<string, string>>({})
@@ -876,13 +881,13 @@ export default function DashboardClient({ accessToken, user }: DashboardClientPr
                             <img src={user.image} className="w-10 h-10 rounded-full" alt={user.name} />
                         )}
                         <LanguageToggle />
-                        <a
+                        <Link
                             href="/"
                             className="flex items-center gap-2 px-3 py-2 bg-neutral-800 hover:bg-neutral-700 rounded-full text-sm transition"
                             title={t('home')}
                         >
                             <Home className="w-4 h-4" />
-                        </a>
+                        </Link>
                         <a
                             href="/api/spotify/logout"
                             className="flex items-center gap-2 px-3 py-2 bg-red-900/50 hover:bg-red-800 text-red-400 hover:text-white rounded-full text-sm transition"
@@ -1008,7 +1013,7 @@ export default function DashboardClient({ accessToken, user }: DashboardClientPr
                                     setTracks(data.tracks || [])
                                     setStatus(t('success'))
                                 }
-                            } catch (e) {
+                            } catch {
                                 setStatus(t('error'))
                             } finally {
                                 setLoading(false)
